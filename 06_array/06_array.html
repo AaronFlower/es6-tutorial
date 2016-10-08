@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Array</title>
+</head>
+<body>
+	<ul>
+		<li>01</li>
+		<li>02</li>
+		<li>03</li>
+	</ul>
+	<script>
+		/**
+		 * Array.from
+		 */
+		let arrayLike = {
+			0: 1,
+			1: 'Foo',
+			length: 2
+		}
+
+		let arr = [].slice.apply(arrayLike) // ES5
+		console.log(arr)
+		let brr = Array.from(arrayLike) 	// ES6
+		console.log(brr)
+		/**
+		 * Array.from 的最用应用在 DOM 操作返回的 NodeList 上,以及函数参数。
+		 */
+		let lis = document.querySelectorAll('li')
+		console.log(lis)
+		lis.forEach((node,index) => {
+			console.log('index ' ,index, node)
+		})
+		console.log('instanceof Array : ', lis instanceof Array)
+		console.log('instanceof NodeList : ', lis instanceof NodeList)
+		/**
+		 * 可以使用 Array.from 来转换。
+		 * 其实也都可以用数组扩展运算符(...)来将某些数据结构转换成数组。
+		 * 扩展运算符背后调用的是遍历器接口（Symbol.iterator），
+		 * 如果一个对象没有部署这个接口，就无法转换。
+		 */
+		let lisArr = Array.from(lis)
+		let lisArr02 = [...lis]
+		console.log(lisArr)
+		console.log(lisArr02)
+		console.log('instanceof Array : ', lisArr instanceof Array)
+		console.log('instanceof Array : ', lisArr02 instanceof Array)
+
+		// 函数参数转换。
+		var foo = function () {
+			let args = Array.from(arguments)	
+			let args02 = [...arguments]
+			console.log(args)
+			console.log(args02)
+		}
+		foo(1, 2, 3)
+
+		arr = Array.from({ length: 3 })  // 因为对象没用 iterator 接口，所以无法用 ... 转换的。
+		console.log(arr) 
+		// Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，
+		// 将处理后的值放入返回的数组。
+		arrayLike = {
+			0: 1,
+			1: 2,
+			length: 2
+		}
+		let arrM = Array.from(arrayLike, (x) => x * x) 
+		// 等价于
+		arrM02 = Array.from(arrayLike).map(x => x * x)
+		console.log(arrM)
+		console.log(arrM02)
+		// 快捷处理 DOM
+		let names = Array.from(document.querySelectorAll('li'), li => li.innerHTML)
+		console.log(names)
+		// 将数组中 false 元素转换成0
+		console.log(Array.from([1, , 2, 3, , 5], x => x || 0 ))
+		// 函数参数类型
+		var bar = function () {
+			console.log(Array.from(arguments, arg => typeof arg))
+		}
+		bar(1, 'hello', {})
+		// Array.from 还有第三个参数，可以传入 this。
+
+		// 指定函数的运行次数 
+		console.log(Array.from({length: 2}, x => 'Jack Foo'))
+		// 数组长度处理，可以正常处理 Unicode 字符。
+		console.log("𠮷 length", "𠮷".length)
+		console.log("𠮷 length", Array.from("𠮷").length)
+		var multiLength = function (str) {
+			return Array.from(str).length
+		}
+		console.log(multiLength("𠮷"))
+	</script>
+</body>
+</html>
