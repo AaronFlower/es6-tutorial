@@ -12,7 +12,8 @@
 	</ul>
 	<script>
 		/**
-		 * Array.from
+		 * Array.from 
+		 * -- 语法：Array.from(arrayLike[, mapFn[, thisArg]])
 		 */
 		let arrayLike = {
 			0: 1,
@@ -91,6 +92,69 @@
 			return Array.from(str).length
 		}
 		console.log(multiLength("𠮷"))
+
+		/**
+		 * Array.of
+		 * 方法会将它的任意类型的多个参数放在一个数组里并返回。
+		 * -- 语法：Array.of(element0[, element1[, ...[, elementN]]])
+		 * 目的是为了弥补 Array 或 new Array 构造函数的差异，但是直接用字面量 [] 就OK呀。
+		 */
+		console.log('Array.of....')
+		console.log(Array.of(3, 11, 8))
+		console.log(Array.of([2, 3], 3))
+		console.log('Array....')
+		console.log(Array())
+		console.log(Array(3))
+		console.log(Array(3, 4))
+		console.log(Array(3, 4, [5, 6]))
+
+		/**
+		 * Array.copyWithin
+		 * -- Array.prototype.copyWithin(target, start = 0, end = this.length)
+		 * copyWithin() 方法会浅拷贝数组的部分元素到同一数组的不同位置，且不改变数组的大小，返回该数组。
+		 */
+		console.log('Array.copyWithin')
+		console.log([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
+		arr = [0, 1, {foo: 'foo'}]
+		arr.copyWithin(0, 2)
+		console.log(arr)
+		// 一定注意是浅拷贝哟。
+		arr[0].foo = 'bar'
+		console.log(arr)
+
+		/**
+		 * Array.find() , Array.findIndex() 和 Array.includes
+		 * Array.find(fn, [thisArg]) -- 返回满足测试条件的元素值, 未找到返回 undefined.
+		 * Array.find(fn, [thisArg]) -- 返回满足测试条件的元素值的索引，未找到返回 -1.
+		 * boolean array.includes(searchElement[, fromIndex])
+		 * Array.find, Array.findIndex, Array.includes 都可以找到 NaN, 弥补 IndexOf 方法的不足。
+		 */
+		console.log('Array.find && Array.findIndex...')
+		// indexOf 缺点不够语义化，内部使用严格相等运算符 === ， 会导致 NaN 的误判。
+		console.log('[1, NaN, 2].indexOf:', [1, NaN, 2].indexOf(NaN)) 
+		console.log('[1, NaN, 2].findIndex:', [1, NaN, 2].find(x => { return Object.is(NaN, x) }))
+		console.log('[1, NaN, 2].find:', [1, NaN, 2].findIndex(x => { return Object.is(NaN, x) }))
+		console.log('[1, NaN, 2].includes:', [1, NaN, 2].includes(NaN)) 
+		/**
+		 * Array.fill() 方法，可以将一个数组中指定区间的所有元素的值, 都替换成或者说填充成为某个固定的值。
+		 * Array.fill(value[, start = 0[, end = this.length]])
+		 */
+		console.log(['a', 'b', 'c', 'd'].fill(7, 1, 3))
+
+		/**
+		 * Array.entries(), Array.keys(), Array.values() 分别返回属于 键值对，键，值的 Iterator 对象。
+		 * values() 没有实现？？
+		 */
+		 for(let index of ['a', 'b'].keys()){
+		 	console.log(index)
+		 }
+		 // for(let ele of ['a', 'b'].values()){
+		 // 	console.log(ele)
+		 // }
+		 for(let [index, ele] of ['a', 'b'].entries()){
+		 	console.log(index, ele)
+		 }
+
 	</script>
 </body>
 </html>
